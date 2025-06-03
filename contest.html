@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#SubShieldContest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a001f;
+      --accent-purple: #7d00ff;
+      --neon-purple: #e600ff;
+      --glass-bg: rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.2);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background: var(--bg-dark);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: auto;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 30px;
+      padding: 1rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      transition: width 0.3s ease, opacity 0.3s ease;
+      overflow: hidden;
+      opacity: 0;
+      z-index: 10;
+    }
+    nav.open {
+      width: 200px;
+      opacity: 1;
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      color: #fff;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.75rem;
+      border-radius: 30px;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, background 0.3s;
+    }
+    nav.open a {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .icon {
+      font-size: 1.5rem;
+      color: var(--neon-purple);
+      text-shadow: 0 0 8px var(--neon-purple), 0 0 16px var(--neon-purple);
+      flex-shrink: 0;
+      display: inline-block;
+      text-align: center;
+      width: 24px;
+    }
+    .link-text {
+      white-space: nowrap;
+    }
+
+    .nav-toggle {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 11;
+      transition: background 0.3s;
+    }
+    .nav-toggle:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .nav-toggle .bar {
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .nav-toggle .bar::before,
+    .nav-toggle .bar::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .nav-toggle .bar::before {
+      top: -6px;
+    }
+    .nav-toggle .bar::after {
+      top: 6px;
+    }
+    nav.open + .nav-toggle .bar {
+      transform: rotate(45deg);
+    }
+    nav.open + .nav-toggle .bar::before {
+      transform: rotate(90deg) translateX(-6px);
+    }
+    nav.open + .nav-toggle .bar::after {
+      transform: rotate(90deg) translateX(6px);
+      opacity: 0;
+    }
+
+    .container {
+      margin-right: 100px;
+      padding: 2rem;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--accent-purple), transparent 70%);
+      transform: translate(-50%, -50%);
+      filter: blur(150px);
+      z-index: -1;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--neon-purple);
+      text-shadow: 0 0 8px var(--neon-purple), 0 0 16px var(--neon-purple);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { text-shadow: 0 0 8px var(--neon-purple), 0 0 16px var(--neon-purple); }
+      50% { text-shadow: 0 0 16px var(--neon-purple), 0 0 32px var(--neon-purple); }
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+      color: #d0c8f5;
+      max-width: 600px;
+      animation: fadeUp 1.5s ease forwards 0.5s;
+      opacity: 0;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn-primary {
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      border: 2px solid var(--neon-purple);
+      border-radius: 50px;
+      background: transparent;
+      color: var(--neon-purple);
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      text-shadow: 0 0 8px var(--neon-purple);
+      animation: fadeUp 1.5s ease forwards 1s;
+      opacity: 0;
+      transition: transform 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.7s;
+    }
+    .btn-primary:hover::before {
+      left: 200%;
+    }
+    .btn-primary:hover {
+      color: var(--accent-purple);
+      box-shadow: 0 0 12px var(--accent-purple), 0 0 24px var(--accent-purple);
+      transform: scale(1.05);
+    }
+    .countdown {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      animation: fadeUp 1.5s ease forwards 1.2s;
+      opacity: 0;
+    }
+    .countdown-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      min-width: 80px;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .countdown-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    .countdown-item span {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+    }
+    .countdown-item small {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+      opacity: 0.8;
+    }
+
+    .info-section {
+      max-width: 800px;
+      margin: 0 auto 4rem auto;
+      padding: 0 1rem;
+    }
+    .info-field {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: transform 0.6s, opacity 0.6s;
+    }
+    .info-field.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .info-field h2 {
+      font-size: 1.8rem;
+      color: var(--neon-purple);
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 0.5rem;
+    }
+    .info-field p {
+      font-size: 1rem;
+      color: #d0c8f5;
+      line-height: 1.5;
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--bg-dark), #000);
+      padding: 3rem 1rem 1rem;
+      color: #d0c8f5;
+      position: relative;
+      overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--accent-purple) 0%, transparent 60%);
+      opacity: 0.2;
+      z-index: 0;
+    }
+    .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      z-index: 1;
+      position: relative;
+    }
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+    .footer-col h3 {
+      font-size: 1.25rem;
+      color: var(--neon-purple);
+    }
+    .footer-col h4 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--neon-purple);
+    }
+    .footer-col p {
+      font-size: 0.9rem;
+      color: #e0d8f5;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-col ul li {
+      margin-bottom: 0.5rem;
+    }
+    .footer-col ul li a {
+      font-size: 0.9rem;
+      color: #e0d8f5;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul li a:hover {
+      color: var(--accent-purple);
+    }
+    .connect a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: #e0d8f5;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .connect a:hover {
+      color: var(--accent-purple);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin-right: 0;
+      }
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      .countdown {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .footer-top {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .footer-col {
+        min-width: 100%;
+      }
+    }
+
+    .a_rules{
+      color: #f997fa;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .a_rules:hover{
+      color: #d050d1;
+    }
+  </style>
+</head>
+<body>
+  <nav id="sidebar">
+    <a href="#hero">
+      <span class="icon"><img src="home.png" width="25" height="25" style="padding: auto;"></span>
+      <span class="link-text">Главная</span>
+    </a>
+    <a href="#" target="_blank">
+      <span class="icon"><img src="reel.png" width="25" height="25" style="padding: auto;"></span>
+      <span class="link-text">Видео ивента</span>
+    </a>
+  </nav>
+  <div class="nav-toggle" id="navToggle">
+    <div class="bar"></div>
+  </div>
+
+  <div class="container">
+    <section id="hero" class="hero">
+      <h1 data-text="#SubShieldContest">#SubShieldContest</h1>
+      <p>Записывай свои тиктоки и получай призы!</p>
+      <button class="btn-primary" onclick="scrollToSection('info')">Узнать больше</button>
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <span id="days">00</span>
+          <small>дней</small>
+        </div>
+        <div class="countdown-item">
+          <span id="hours">00</span>
+          <small>часов</small>
+        </div>
+        <div class="countdown-item">
+          <span id="minutes">00</span>
+          <small>минут</small>
+        </div>
+        <div class="countdown-item">
+          <span id="seconds">00</span>
+          <small>секунд</small>
+        </div>
+      </div>
+    </section>
+
+    <section id="info" class="info-section">
+      <div id="field1" class="info-field">
+        <h2>Правила</h2>
+        <p>1. Всё в видео должно происходить на сервере <a href="https://shield.land/" class="a_rules">SubShield</a>. <br>2. В описании видео должен быть хештег #SubShieldContest<br> 3. Видео принимаются только с площадки ТикТок <br> 4. В видео, описании или комментариях должна быть ссылка на сайт сервера (<a class="a_rules">https://shield.land/</a>)</p>
+      </div>
+      <div id="field2" class="info-field">
+        <h2>Призы</h2>
+        <p>1 место - <a class="a_rules">Ивентовый предмет</a><br> 2 место - <a class="a_rules">6 стака АБ</a><br> 3 место - <a class="a_rules">3 стака АБ</a><br><br>За каждую 1 тысячу просмотров - <a class="a_rules">1 АБ</a></p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-col">
+        <h3>#SubShieldContest</h3>
+      </div>
+      <div class="footer-col">
+        <h4>Быстрые ссылки</h4>
+        <ul>
+          <li><a href="#hero">Вернуться наверх</a></li>
+          <li><a href="#info">Информация</a></li>
+          <li><a href="#" target="_blank">Видео ивента</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Для связи</h4>
+        <div class="connect">
+          <a href="https://discordapp.com/users/471045169391599636"><span>Discord: @teasheden</span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+    const infoFields = document.querySelectorAll('.info-field');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { root: null, rootMargin: '0px', threshold: 0.2 });
+    infoFields.forEach((field) => observer.observe(field));
+
+    const eventDate = new Date('2025-09-01T00:00:00+03:00');
+    function updateCountdown() {
+      const now = new Date();
+      const diff = eventDate - now;
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = '<h2 style="color: #f997fa; text-shadow: 0 0 8px var(--accent-purple);">Для связи: <a href="https://discordapp.com/users/471045169391599636" style="text-decoration:none; color:#d050d1;"><span>Discord: @teasheden</span></a></h2>';
+        clearInterval(countdownInterval);
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+    
+    const sidebar = document.getElementById('sidebar');
+    const navToggle = document.getElementById('navToggle');
+    navToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      navToggle.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
