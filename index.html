@@ -27,15 +27,14 @@
       color: #fff;
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
+      position: relative;
     }
-
     nav {
       position: fixed;
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
       width: 0;
-      height: auto;
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
       border-radius: 30px;
@@ -53,7 +52,6 @@
       width: 200px;
       opacity: 1;
     }
-
     nav a {
       display: flex;
       align-items: center;
@@ -88,7 +86,6 @@
     .link-text {
       white-space: nowrap;
     }
-
     .nav-toggle {
       position: fixed;
       right: 20px;
@@ -140,12 +137,15 @@
       transform: rotate(90deg) translateX(6px);
       opacity: 0;
     }
-
     .container {
       margin-right: 100px;
       padding: 2rem;
     }
-
+    @media (max-width: 768px) {
+      .container {
+        margin-right: 0;
+      }
+    }
     .hero {
       display: flex;
       flex-direction: column;
@@ -229,10 +229,24 @@
       box-shadow: 0 0 12px var(--accent-purple), 0 0 24px var(--accent-purple);
       transform: scale(1.05);
     }
+    .event-text {
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      color: var(--neon-purple);
+      text-shadow: 0 0 8px var(--neon-purple);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .event-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .countdown {
       display: flex;
       gap: 1rem;
-      margin-top: 2rem;
+      margin-top: 0;
       animation: fadeUp 1.5s ease forwards 1.2s;
       opacity: 0;
     }
@@ -263,7 +277,6 @@
       margin-top: 0.25rem;
       opacity: 0.8;
     }
-
     .info-section {
       max-width: 800px;
       margin: 0 auto 4rem auto;
@@ -296,13 +309,139 @@
       color: #d0c8f5;
       line-height: 1.5;
     }
-
+    .faq-container {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto 4rem;
+      backdrop-filter: blur(8px);
+    }
+    .faq-container h2 {
+      font-size: 1.8rem;
+      color: var(--neon-purple);
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 0.5rem;
+    }
+    #faq-list {
+      margin-top: 1.5rem;
+    }
+    .faq-item {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 0.75rem;
+    }
+    .faq-question {
+      font-size: 1.25rem;
+      color: var(--neon-purple);
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .faq-question:hover {
+      color: var(--accent-purple);
+    }
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      font-size: 1.25rem;
+      transition: transform 0.3s;
+    }
+    .faq-question.active::after {
+      content: '-';
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      margin-top: 0;
+      padding-left: 1rem;
+      font-size: 1rem;
+      color: #d0c8f5;
+      line-height: 1.5;
+    }
+    .faq-question.active + .faq-answer {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 0.5rem;
+    }
+    .winners-section {
+      max-width: 800px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .winners-section h2 {
+      font-size: 1.8rem;
+      color: var(--neon-purple);
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 0.5rem;
+    }
+    .winner-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .winner-card h3 {
+      font-size: 1.25rem;
+      color: var(--accent-purple);
+      margin-bottom: 0.5rem;
+    }
+    .winner-card p {
+      font-size: 1rem;
+      color: #d0c8f5;
+      line-height: 1.4;
+    }
+    .cube-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 50px);
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .cube {
+      position: absolute;
+      bottom: 0;
+      background: var(--accent-purple);
+      opacity: 0.6;
+      width: 12px;
+      height: 12px;
+      animation: floatCube linear infinite;
+    }
+    @keyframes floatCube {
+      0% {
+        transform: translateY(0);
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-200px);
+        opacity: 0;
+      }
+    }
     footer {
       background: linear-gradient(135deg, var(--bg-dark), #000);
       padding: 3rem 1rem 1rem;
       color: #d0c8f5;
       position: relative;
       overflow: hidden;
+      z-index: 2;
     }
     footer::before {
       content: '';
@@ -367,11 +506,7 @@
     .connect a:hover {
       color: var(--accent-purple);
     }
-
     @media (max-width: 768px) {
-      .container {
-        margin-right: 0;
-      }
       .hero h1 {
         font-size: 1.5rem;
       }
@@ -390,30 +525,28 @@
         min-width: 100%;
       }
     }
-
-    .a_rules{
+    .a_rules {
       color: #f997fa;
       text-decoration: none;
       transition: 0.3s;
     }
-
-    .a_rules:hover{
+    .a_rules:hover {
       color: #d050d1;
     }
-    .pe{
+    .pe {
       color: #ffd700;
       text-decoration: none;
       transition: 0.3s;
     }
-    .pe:hover{
+    .pe:hover {
       color: #e6c619;
     }
-    .pb{
+    .pb {
       color: #808080;
       text-decoration: none;
       transition: 0.3s;
     }
-    .pb:hover{
+    .pb:hover {
       color: #e6c619;
     }
   </style>
@@ -421,11 +554,11 @@
 <body>
   <nav id="sidebar">
     <a href="#hero">
-      <span class="icon"><img src="home.png" width="25" height="25" style="padding: auto;"></span>
+      <span class="icon"><img src="home.png" alt="" width="25" height="25"></span>
       <span class="link-text">Главная</span>
     </a>
     <a href="https://vm.tiktok.com/ZNdBG2wMN" target="_blank">
-      <span class="icon"><img src="reel.png" width="25" height="25" style="padding: auto;"></span>
+      <span class="icon"><img src="reel.png" alt="" width="25" height="25"></span>
       <span class="link-text">Видео ивента</span>
     </a>
   </nav>
@@ -438,6 +571,7 @@
       <h1 data-text="#SubShieldContest">#SubShieldContest</h1>
       <p>Записывай свои короткие видео и получай призы!</p>
       <button class="btn-primary" onclick="scrollToSection('info')">Узнать больше</button>
+      <div class="event-text" id="eventText">До конца ивента осталось:</div>
       <div class="countdown" id="countdown">
         <div class="countdown-item">
           <span id="days">00</span>
@@ -465,17 +599,61 @@
       </div>
       <div id="field2" class="info-field">
         <h2>Правила</h2>
-        <p>1. Всё в видео должно происходить на сервере <a href="https://shield.land/" class="a_rules">SubShield</a>. <br>2. В описании видео должен быть хештег #SubShieldContest<br> 3. Видео принимаются только с площадок TikTok и YouTube Shorts <br>4. Принимаются только свежие видео с 3 сезона сервера<br>5. Запрещена накрутка (будет проверяться)</p>
+        <p>1. Всё в видео должно происходить на сервере <a href="https://shield.land/" class="a_rules">SubShield</a> и/или сам сервер <a href="https://shield.land/" class="a_rules">SubShield</a> должен упоминаться в видео.<br>
+           2. В описании видео должен быть хештег #SubShieldContest<br>
+           3. Видео принимаются только с площадок TikTok и YouTube Shorts<br>
+           4. Принимаются видео сделанные во время 3-го сезона сабшилда<br>
+           5. Запрещена накрутка (будет проверяться)<br>
+           6. Нельзя использовать старый видеоматериал (не с 3 сезона)</p>
       </div>
       <div id="field3" class="info-field">
         <h2>Призы</h2>
         <a class="pe">🏆 ГЛАВНЫЙ ПРИЗ за все видео с 01.06.2025 до 01.09.2025</a><br>
-        <p>1 место - <a class="a_rules">Ивентовый предмет + Проходка на сервер (На месяц)</a><br> 2 место - <a class="a_rules">6 стаков АБ + Проходка на сервер (На месяц)</a><br> 3 место - <a class="a_rules">3 стака АБ</a></p><br>
-        <a class="pe">⭐️ Дополнительные призы:</a><br><a class="pb">Промежуточный этап с 01.06.2025 по 30.06.2025</a>
-        <p>1 место - <a class="a_rules">3 стака АБ</a><br> 2 место - <a class="a_rules">2 стака АБ</a><br> 3 место - <a class="a_rules">1 стак АБ</a><br></p><br>
+        <p>1 место – <a class="a_rules">Ивентовый предмет + Проходка на сервер (на месяц)</a><br>
+           2 место – <a class="a_rules">6 стаков АБ + Проходка на сервер (на месяц)</a><br>
+           3 место – <a class="a_rules">3 стака АБ</a></p><br>
+        <a class="pe">⭐️ Дополнительные призы:</a><br>
+        <a class="pb">Промежуточный этап с 01.06.2025 по 30.06.2025</a>
+        <p>1 место – <a class="a_rules">3 стака АБ</a><br>
+           2 место – <a class="a_rules">2 стака АБ</a><br>
+           3 место – <a class="a_rules">1 стак АБ</a></p><br>
         <a class="pb">Промежуточный этап с 01.07.2025 по 31.07.2025</a>
-        <p>1 место - <a class="a_rules">3 стака АБ</a><br> 2 место - <a class="a_rules">2 стака АБ</a><br> 3 место - <a class="a_rules">1 стак АБ</a><br></p><br>
-        <br><br>За каждую 1 тысячу просмотров - <a class="a_rules">1 АБ</a></p>
+        <p>1 место – <a class="a_rules">3 стака АБ</a><br>
+           2 место – <a class="a_rules">2 стака АБ</a><br>
+           3 место – <a class="a_rules">1 стака АБ</a></p><br>
+        <p>За каждую 1 тысячу просмотров – <a class="a_rules">1 АБ</a></p>
+      </div>
+    </section>
+
+    <section id="faq" class="info-section">
+      <div class="faq-container">
+        <h2>FAQ</h2>
+        <div id="faq-list">
+          <div class="faq-item">
+            <div class="faq-question">Я делаю видео не по серверу, но связанные с майнкрафтом. Могу ли участвовать?</div>
+            <div class="faq-answer">
+              Да, но в таком случае в видео должно быть упоминание о сервере SubShield или его логотип.<br>
+              Например: «Заходи на SubShield – ссылка на сайт».<br><br>
+              Самое главное – упоминание сервера в видео.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="winners" class="winners-section">
+      <h2 align="center">Победители всех этапов</h2>
+      <div class="winner-card">
+        <h3>Промежуточный этап (01.06.2025 – 30.06.2025)</h3>
+        <p>Победители:<br> N/A</p>
+      </div>
+      <div class="winner-card">
+        <h3>Промежуточный этап (01.07.2025 – 31.07.2025)</h3>
+        <p>Победители:<br> N/A</p>
+      </div>
+      <div class="winner-card">
+        <h3>Главный приз (01.06.2025 – 01.09.2025)</h3>
+        <p>Победители:<br> N/A</p>
       </div>
     </section>
   </div>
@@ -490,16 +668,21 @@
         <ul>
           <li><a href="#hero">Вернуться наверх</a></li>
           <li><a href="#info">Информация</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#winners">Победители</a></li>
           <li><a href="https://vm.tiktok.com/ZNdBG2wMN" target="_blank">Видео ивента</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Для связи</h4>
         <div class="connect">
-          <a href="https://discordapp.com/users/471045169391599636"><span>Discord: @teasheden</span></a>
+          <a href="https://discordapp.com/users/471045169391599636">
+            <span>Discord: @teasheden</span>
+          </a>
         </div>
       </div>
     </div>
+    <div class="cube-container"></div>
   </footer>
 
   <script>
@@ -516,13 +699,23 @@
       });
     }, { root: null, rootMargin: '0px', threshold: 0.2 });
     infoFields.forEach((field) => observer.observe(field));
-
+    const eventText = document.getElementById('eventText');
+    const countdownEl = document.getElementById('countdown');
+    const eventObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          eventText.classList.add('visible');
+          eventObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    eventObserver.observe(countdownEl);
     const eventDate = new Date('2025-09-01T00:00:00+03:00');
     function updateCountdown() {
       const now = new Date();
       const diff = eventDate - now;
       if (diff <= 0) {
-        document.getElementById('countdown').innerHTML = '<h2 style="color: #f997fa; text-shadow: 0 0 8px var(--accent-purple);">Для связи: <a href="https://discordapp.com/users/471045169391599636" style="text-decoration:none; color:#d050d1;"><span>Discord: @teasheden</span></a></h2>';
+        document.getElementById('countdown').innerHTML = '<h2 style="color: #f997fa; text-shadow: 0 0 8px var(--neon-purple);">Для связи: <a href="https://discordapp.com/users/471045169391599636" style="text-decoration:none; color:#d050d1;"><span>Discord: @teasheden</span></a></h2>';
         clearInterval(countdownInterval);
         return;
       }
@@ -537,13 +730,32 @@
     }
     const countdownInterval = setInterval(updateCountdown, 1000);
     updateCountdown();
-    
     const sidebar = document.getElementById('sidebar');
     const navToggle = document.getElementById('navToggle');
     navToggle.addEventListener('click', () => {
       sidebar.classList.toggle('open');
       navToggle.classList.toggle('open');
     });
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        question.classList.toggle('active');
+      });
+    });
+    const cubeContainer = document.querySelector('.cube-container');
+    function createCube() {
+      const cube = document.createElement('div');
+      cube.className = 'cube';
+      const size = Math.random() * 12 + 6;
+      cube.style.width = `${size}px`;
+      cube.style.height = `${size}px`;
+      cube.style.left = `${Math.random() * 100}%`;
+      cube.style.animationDuration = `${Math.random() * 2 + 3}s`;
+      cubeContainer.appendChild(cube);
+      setTimeout(() => {
+        cube.remove();
+      }, (parseFloat(cube.style.animationDuration) + 0.5) * 1000);
+    }
+    setInterval(createCube, 300);
   </script>
 </body>
 </html>
